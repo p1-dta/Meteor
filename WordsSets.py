@@ -38,7 +38,7 @@ class WordsSet:
         pass
 
     def iter_on_word(self, execute):
-        [execute(a) for a in self.words]
+        [execute(word_dict) for word_dict in self.words]
 
 
 class WordsSets:
@@ -55,4 +55,4 @@ class WordsSets:
         return len(self.w_s_array)
 
     def iter_on_word(self, execute):
-        [execute(a) for a in self.w_s_array]
+        [execute(elem) for elem in self.w_s_array]

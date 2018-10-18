@@ -16,8 +16,8 @@
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 from json import load
-from tkinter import IntVar, Label, Checkbutton, Button, NE, Frame, EW, \
-    Menu, StringVar, Entry, Tk
+from tkinter import IntVar, Label, Checkbutton, NE, Frame, Menu, StringVar, \
+    Entry, Tk
 from tkinter.messagebox import askokcancel
 from tkinter.ttk import Separator
 
@@ -55,14 +55,14 @@ class MainWindow(Window):
         self.var = list()
         with open('sets.json', 'r') as sets:
             self.words_sets = WordsSets(load(sets))
-            self.words_sets.iter_on_word(self.func_test)
+            self.words_sets.iter_on_word(self.on_iteration)
         self.menu = MainMenuBar(self)
         self.root.config(menu=self.menu)
 
-    def func_test(self, a):
+    def on_iteration(self, words):
         self.var.append(IntVar())
         self.set_checkbutton = Checkbutton(self,
-                                           text=a.get_name(),
+                                           text=words.get_name(),
                                            variable=self.var[-1],
                                            command=self.cb)
         self.set_checkbutton.grid(column=0)
@@ -71,6 +71,7 @@ class MainWindow(Window):
         print('variable is {}'.format(list(map(lambda i: i.get(), self.var))))
 
     def start(self):
+
         print('start')
         pass
 
@@ -103,29 +104,29 @@ class SetWindow(Window):
         second_language_label.grid(row=0, column=1)
         if window_type == SHOW_SET_WINDOW:
             separator = Separator(self)
-            separator.grid(row=1, column=1, sticky="we")
-        self.words_set.iter_on_word(self.func_iter)
+            separator.grid(row=1, column=0, columnspan=2, sticky="we")
+        self.words_set.iter_on_word(self.on_iteration)
 
-    def func_iter(self, a):
+    def on_iteration(self, word):
+        frame = Frame(self)
+        frame.grid(column=0, columnspan=2)
         if self.window_type == SHOW_SET_WINDOW:
-            frame = Frame(self)
-            frame.grid(column=0, columnspan=2)
-            print(a)
-            word_label_left = Label(frame, text=a['first'])
+            print(word)
+            word_label_left = Label(frame, text=word['first'])
             word_label_left.grid(row=0, column=0)
-            word_label_right = Label(frame, text=a['second'])
+            word_label_right = Label(frame, text=word['second'])
             word_label_right.grid(row=0, column=1)
         elif self.window_type == EDIT_SET_WINDOW:
             first_text_variable = StringVar()
             second_text_variable = StringVar()
-            word_entry_left = Entry(self,
+            word_entry_left = Entry(frame,
                                     textvariable=first_text_variable)
-            word_entry_left.grid(row=it + 1, column=0)
-            word_entry_right = Entry(self,
+            word_entry_left.grid(row=0, column=0)
+            word_entry_right = Entry(frame,
                                      textvariable=second_text_variable)
-            word_entry_right.grid(row=it + 1, column=1)
-            word_entry_left.insert(0, a['first'])
-            word_entry_right.insert(0, a['second'])
+            word_entry_right.grid(row=0, column=1)
+            word_entry_left.insert(0, word['first'])
+            word_entry_right.insert(0, word['second'])
 
     def destroy(self):
         print('test')

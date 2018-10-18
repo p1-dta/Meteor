@@ -80,17 +80,17 @@ class EditMenu(Menu):
         else:
             self.entryconfig('Show Sets', state='normal')
             self.entryconfig('Edit Sets', state='normal')
-            self.window.words_sets.iter_on_word(self.func_example)
+            self.window.words_sets.iter_on_word(self.on_iteration)
         return
 
-    def func_example(self, a):
-        p_show = partial(self.create_set_window, a,
+    def on_iteration(self, words_set):
+        p_show = partial(self.create_set_window, words_set,
                          Window.SHOW_SET_WINDOW)
-        p_edit = partial(self.create_set_window, a,
+        p_edit = partial(self.create_set_window, words_set,
                          Window.EDIT_SET_WINDOW)
-        self.show_set_menu.add_cascade(label=a.get_name(),
+        self.show_set_menu.add_cascade(label=words_set.get_name(),
                                        command=p_show)
-        self.edit_set_menu.add_cascade(label=a.get_name(),
+        self.edit_set_menu.add_cascade(label=words_set.get_name(),
                                        command=p_edit)
 
     def create_set_window(self, word_set: WordsSets, window_type: int):

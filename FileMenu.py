@@ -17,25 +17,30 @@
 #
 from tkinter import Menu
 
-import EditMenu
-import FileMenu
-import HelpMenu
-import Window
+
+def callback():
+    print('called the callback!')
+    pass
 
 
-class MainMenuBar(Menu):
-    parent: Window
-    file_menu: FileMenu
-    edit_menu: EditMenu
-    help_menu: HelpMenu
+def import_pack():
+    print('called the import!')
+    pass
 
-    def __init__(self, parent: Window) -> None:
+
+def export_pack():
+    print('called the export!')
+    pass
+
+
+class FileMenu(Menu):
+    def __init__(self, window) -> None:
         Menu.__init__(self)
-        self.parent = parent
-        self.file_menu = FileMenu.FileMenu(self.parent)
-        self.edit_menu = EditMenu.EditMenu(self)
-        self.help_menu = HelpMenu.HelpMenu()
-        self.add_cascade(label='File', menu=self.file_menu)
-        self.add_cascade(label='Edit', menu=self.edit_menu)
-        self.add_cascade(label='Help', menu=self.help_menu)
+        self.add_command(label='New Set', command=callback)
+        self.add_command(label='Import Set Pack', command=import_pack)
+        self.add_command(label='Export Set Pack', command=export_pack)
+        self.add_separator()
+        self.add_command(label='Settings', command=callback)
+        self.add_separator()
+        self.add_command(label='Exit', command=window.ask_quit)
         return

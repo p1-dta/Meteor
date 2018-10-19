@@ -17,25 +17,26 @@
 #
 from tkinter import Menu
 
-import EditMenu
-import FileMenu
-import HelpMenu
-import Window
+
+def callback():
+    print('called the callback!')
+    pass
 
 
-class MainMenuBar(Menu):
-    parent: Window
-    file_menu: FileMenu
-    edit_menu: EditMenu
-    help_menu: HelpMenu
+def repository_redirect():
+    open('https://github.com/Vikka/ChiTrain')
 
-    def __init__(self, parent: Window) -> None:
+
+def issue_redirect():
+    open('https://github.com/Vikka/ChiTrain/issues')
+
+
+class HelpMenu(Menu):
+    def __init__(self) -> None:
         Menu.__init__(self)
-        self.parent = parent
-        self.file_menu = FileMenu.FileMenu(self.parent)
-        self.edit_menu = EditMenu.EditMenu(self)
-        self.help_menu = HelpMenu.HelpMenu()
-        self.add_cascade(label='File', menu=self.file_menu)
-        self.add_cascade(label='Edit', menu=self.edit_menu)
-        self.add_cascade(label='Help', menu=self.help_menu)
-        return
+        self.add_command(label='Getting Started', command=callback)
+        self.add_separator()
+        self.add_command(label='Github Repository',
+                         command=repository_redirect)
+        self.add_command(label='Report Problem', command=issue_redirect)
+        self.add_command(label='About', command=callback)

@@ -15,27 +15,21 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from tkinter import Menu
-
-import EditMenu
-import FileMenu
-import HelpMenu
-import Window
+from tkinter import Menu, IntVar
 
 
-class MainMenuBar(Menu):
-    parent: Window
-    file_menu: FileMenu
-    edit_menu: EditMenu
-    help_menu: HelpMenu
+class EditLengthMenu(Menu):
+    game_length: IntVar
 
-    def __init__(self, parent: Window) -> None:
+    def __init__(self):
         Menu.__init__(self)
-        self.parent = parent
-        self.file_menu = FileMenu.FileMenu(self.parent)
-        self.edit_menu = EditMenu.EditMenu(self)
-        self.help_menu = HelpMenu.HelpMenu()
-        self.add_cascade(label='File', menu=self.file_menu)
-        self.add_cascade(label='Edit', menu=self.edit_menu)
-        self.add_cascade(label='Help', menu=self.help_menu)
-        return
+        self.game_length = IntVar(None, 10)
+        self.add_radiobutton(label="10 words (default)",
+                             value=10,
+                             variable=self.game_length)
+        self.add_radiobutton(label="25 words",
+                             value=25,
+                             variable=self.game_length)
+        self.add_radiobutton(label="50 words",
+                             value=50,
+                             variable=self.game_length)

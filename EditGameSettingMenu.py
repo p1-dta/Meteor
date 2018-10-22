@@ -21,6 +21,8 @@ from EditLengthMenu import EditLengthMenu
 
 
 class EditGameSettingMenu(Menu):
+    edit_length_menu: EditLengthMenu
+
     def __init__(self):
         Menu.__init__(self)
         self.edit_length_menu = EditLengthMenu()

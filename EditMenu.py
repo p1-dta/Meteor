@@ -28,15 +28,14 @@ class EditMenu(Menu):
     window: Window
     show_set_menu: Menu
     edit_set_menu: Menu
+    edit_game_settings_menu: EditGameSettingMenu
 
     def __init__(self, main_menu) -> None:
         Menu.__init__(self)
         self.main_menu = main_menu
         self.window = main_menu.parent
-        self.show_set_menu = Menu(self)
         self.edit_set_menu = Menu(self)
         self.edit_game_settings_menu = EditGameSettingMenu()
-        self.add_cascade(label='Show Sets', menu=self.show_set_menu)
         self.add_cascade(label='Edit Sets', menu=self.edit_set_menu)
         self.add_cascade(label='Edit Game Settings',
                          menu=self.edit_game_settings_menu)
@@ -44,25 +43,16 @@ class EditMenu(Menu):
 
     def update_menu(self) -> None:
         if self.window.words_sets == 0:
-            self.entryconfig('Show Sets', state='disabled')
             self.entryconfig('Edit Sets', state='disabled')
         else:
-            self.entryconfig('Show Sets', state='normal')
             self.entryconfig('Edit Sets', state='normal')
-            self.window.words_sets.iter_on_word(self.on_iteration)
+            for words_set in self.window.words_sets.w_s_array:
+                p_edit = partial(self.create_set_window, words_set)
+                self.edit_set_menu.add_cascade(label=words_set.get_name(),
+                                               command=p_edit)
         return
 
-    def on_iteration(self, words_set):
-        p_show = partial(self.create_set_window, words_set,
-                         Window.SHOW_SET_WINDOW)
-        p_edit = partial(self.create_set_window, words_set,
-                         Window.EDIT_SET_WINDOW)
-        self.show_set_menu.add_cascade(label=words_set.get_name(),
-                                       command=p_show)
-        self.edit_set_menu.add_cascade(label=words_set.get_name(),
-                                       command=p_edit)
-
-    def create_set_window(self, word_set: WordsSets, window_type: int):
+    def create_set_window(self, word_set: WordsSets):
         window = Tk()
-        Window.SetWindow(self, word_set, window_type, window)
+        Window.SetWindow(self, word_set, window)
         return

@@ -14,9 +14,8 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from functools import partial
+
 from tkinter import Tk
-from tkinter.messagebox import askokcancel
 
 from Window import MainWindow
 

@@ -15,6 +15,21 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+import codecs
+from json import load, dump
+
+
+class Word:
+    id: int
+    first: str
+    second: str
+    weight: int
+
+    def __init__(self, word: dict):
+        self.id = word['id']
+        self.first = word['first']
+        self.second = word['second']
+        self.weight = word['weight']
 
 
 class WordsSet:
@@ -27,7 +42,7 @@ class WordsSet:
         self.name = word_set['name']
         self.first_language = word_set['first_language']
         self.second_language = word_set['second_language']
-        self.words = [a for a in word_set['words']]
+        self.words = [Word(word) for word in word_set['words']]
         return
 
     def get_len(self) -> int:
@@ -37,16 +52,11 @@ class WordsSet:
         return '{}({} words)'.format(self.name, self.get_len())
         pass
 
-    def iter_on_word(self, execute):
-        [execute(word_dict) for word_dict in self.words]
-
 
 class WordsSets:
-    author: str
     w_s_array: list
 
     def __init__(self, words_sets: dict) -> None:
-        self.author = words_sets["Author"]
         self.w_s_array = [WordsSet(words_set)
                           for words_set in words_sets["sets"]]
         return
@@ -54,5 +64,22 @@ class WordsSets:
     def get_len(self) -> int:
         return len(self.w_s_array)
 
-    def iter_on_word(self, execute):
-        [execute(elem) for elem in self.w_s_array]
+    def save(self):
+        save_words_sets = dict()
+        save_words_sets['sets'] = list()
+        for words_set in self.w_s_array:
+            tmp_words_set = dict()
+            tmp_words_set['name'] = words_set.name
+            tmp_words_set['first_language'] = words_set.first_language
+            tmp_words_set['second_language'] = words_set.second_language
+            tmp_words_set['words'] = list()
+            for words in words_set.words:
+                tmp_words = dict()
+                tmp_words['first'] = words.first
+                tmp_words['second'] = words.second
+                tmp_words['weight'] = words.weight
+                tmp_words_set['words'].append(tmp_words)
+            save_words_sets['sets'].append(tmp_words_set)
+        with codecs.open('data.json', 'w', encoding='utf-8') as outfile:
+            dump(save_words_sets, outfile, ensure_ascii=False)
+        return save_words_sets

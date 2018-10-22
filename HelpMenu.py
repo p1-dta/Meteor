@@ -15,6 +15,7 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+import webbrowser
 from tkinter import Menu
 
 
@@ -24,11 +25,11 @@ def callback():
 
 
 def repository_redirect():
-    open('https://github.com/Vikka/ChiTrain')
+    webbrowser.open('https://github.com/Vikka/ChiTrain')
 
 
 def issue_redirect():
-    open('https://github.com/Vikka/ChiTrain/issues')
+    webbrowser.open('https://github.com/Vikka/ChiTrain/issues')
 
 
 class HelpMenu(Menu):

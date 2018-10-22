@@ -36,6 +36,10 @@ def export_pack():
 class FileMenu(Menu):
     def __init__(self, window) -> None:
         Menu.__init__(self)
+        self.add_command(label='Start Game', command=window.start)
+        self.add_command(label='Restart Game', command=callback)
+        self.add_command(label='Stop Game', command=callback)
+        self.add_separator()
         self.add_command(label='New Set', command=callback)
         self.add_command(label='Import Set Pack', command=import_pack)
         self.add_command(label='Export Set Pack', command=export_pack)

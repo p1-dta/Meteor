@@ -20,13 +20,11 @@ from json import load, dump
 
 
 class Word:
-    id: int
     first: str
     second: str
     weight: int
 
     def __init__(self, word: dict):
-        self.id = word['id']
         self.first = word['first']
         self.second = word['second']
         self.weight = word['weight']
@@ -80,6 +78,6 @@ class WordsSets:
                 tmp_words['weight'] = words.weight
                 tmp_words_set['words'].append(tmp_words)
             save_words_sets['sets'].append(tmp_words_set)
-        with codecs.open('data.json', 'w', encoding='utf-8') as outfile:
+        with codecs.open('sets.json', 'w', encoding='utf-8') as outfile:
             dump(save_words_sets, outfile, ensure_ascii=False)
         return save_words_sets

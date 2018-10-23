@@ -218,7 +218,14 @@ class MainWindow(Window):
 
     def ask_quit(self):
         self.save()
-        askokcancel(self)
+        Window.ask_quit(self)
+
+
+# def askokcancel(title=None, message=None, **options):
+#     "Ask if operation should proceed; return true if the answer is ok"
+#     print("test")
+#     s = _show(title, message, QUESTION, OKCANCEL, **options)
+#     return s == OK
 
 
 class SetWindow(Window):

@@ -19,7 +19,7 @@ import codecs
 from json import load
 from random import choices
 from tkinter import IntVar, Label, Checkbutton, NE, Frame, Menu, StringVar, \
-    Entry, Tk, Button
+    Entry, Tk, Button, EW
 from tkinter.messagebox import askokcancel
 
 from MainMenuBar import MainMenuBar, EditMenu
@@ -44,17 +44,22 @@ class GameWindow(Window):
     show_solution_btn: Button
     scd_lang_lbl: Label
     correct_btn: Button
+    incorrect_btn: Button
+    first_lang_lbl: Label
 
     def __init__(self, parent, root=None):
         Window.__init__(self, root)
         self.parent = parent
+        self.parent.menu.file_menu.entryconfig("Start Game",
+                                               state='disabled')
         words_sample = list()
         words_weight = list()
         for it, value in enumerate(self.parent.var):
             if value.get():
-                for word in self.parent.words_sets.w_s_array[it].words:
+                for it2, word in enumerate(
+                        self.parent.words_sets.w_s_array[it].words):
                     print(word.second)
-                    words_sample.append((word, it))
+                    words_sample.append((word, it, it2))
                     if len(words_weight) > 0:
                         words_weight.append(words_weight[-1] + word.weight)
                     else:
@@ -64,28 +69,29 @@ class GameWindow(Window):
                                     edit_game_settings_menu.edit_length_menu.
                                     game_length.get())
         self.it = 0
-        self.next_turn()
+        self.first_turn()
         print(words_sample)
         print(words_weight)
         # for words in self.parent.words_sets.ws_array
         # weight = sum()
         # self.root.var
 
-    def next_turn(self):
+    def first_turn(self):
         first_lang_lbl_txt = '{} : {}'.format(
-            self.parent.words_sets.w_s_array[self.words_choice[self.it][1]].
-                first_language, self.words_choice[self.it][0].first)
+            self.parent.words_sets.w_s_array[
+                self.words_choice[self.it][1]].first_language,
+            self.words_choice[self.it][0].first)
         sec_lang_lbl_txt = '{} ?'.format(
-            self.parent.words_sets.w_s_array[self.words_choice[self.it][1]].
-                second_language)
-        first_lang_lbl = Label(self, text=first_lang_lbl_txt,
-                               font=("TkDefaultFont", 12))
+            self.parent.words_sets.w_s_array[
+                self.words_choice[self.it][1]].second_language)
+        self.first_lang_lbl = Label(self, text=first_lang_lbl_txt,
+                                    font=("TkDefaultFont", 12))
         self.scd_lang_lbl = Label(self, text=sec_lang_lbl_txt,
                                   font=("TkDefaultFont", 12))
         self.show_solution_btn = Button(self, text='Show solution',
                                         font=("TkDefaultFont", 12),
                                         command=self.show_solution)
-        first_lang_lbl.grid(column=0)
+        self.first_lang_lbl.grid(column=0)
         self.scd_lang_lbl.grid(column=0)
         self.show_solution_btn.grid(column=0)
         print(self.words_choice[self.it])
@@ -96,13 +102,74 @@ class GameWindow(Window):
             self.parent.words_sets.w_s_array[self.words_choice[self.it][1]]
                 .second_language, self.words_choice[self.it][0].second)
         self.scd_lang_lbl.config(text=sec_lang_lbl_txt)
-        self.it += 1
         self.correct_btn = Button(self, text='Correct',
                                   font=("TkDefaultFont", 12),
                                   command=self.correct)
+        self.incorrect_btn = Button(self, text='False',
+                                    font=("TkDefaultFont", 12),
+                                    command=self.incorrect)
+        self.correct_btn.grid(column=0)
+        self.incorrect_btn.grid(column=0)
 
     def correct(self):
-        pass
+        self.parent.words_sets.w_s_array[self.words_choice[self.it][1]].words[
+            self.words_choice[self.it][2]].weight -= \
+            self.parent.words_sets.w_s_array[self.words_choice[
+                self.it][1]].words[self.words_choice[self.it][2]].weight / 10
+        print(int(self.parent.words_sets.w_s_array[
+                      self.words_choice[self.it][1]].words[
+                      self.words_choice[self.it][2]].weight))
+        self.it += 1
+        if self.it < len(self.words_choice):
+            self.next_turn()
+        else:
+            self.master.destroy()
+
+    def incorrect(self):
+        self.parent.words_sets.w_s_array[self.words_choice[self.it][1]].words[
+            self.words_choice[self.it][2]]. \
+            weight += (100 - self.parent.words_sets.
+                       w_s_array[self.words_choice[self.it][1]].
+                       words[self.words_choice[self.it][2]].weight) / 10
+        print(int(self.parent.words_sets.w_s_array[
+                      self.words_choice[self.it][1]].words[
+                      self.words_choice[self.it][2]].weight))
+        self.it += 1
+        if self.it < len(self.words_choice):
+            self.next_turn()
+        else:
+            self.master.destroy()
+
+    def next_turn(self):
+        self.correct_btn.destroy()
+        self.incorrect_btn.destroy()
+        self.scd_lang_lbl.destroy()
+        self.first_lang_lbl.destroy()
+        first_lang_lbl_txt = '{} : {}'.format(
+            self.parent.words_sets.w_s_array[
+                self.words_choice[self.it][1]].first_language,
+            self.words_choice[self.it][0].first)
+        sec_lang_lbl_txt = '{} ?'.format(
+            self.parent.words_sets.w_s_array[
+                self.words_choice[self.it][1]].second_language)
+        self.first_lang_lbl = Label(self, text=first_lang_lbl_txt,
+                                    font=("TkDefaultFont", 12))
+        self.scd_lang_lbl = Label(self, text=sec_lang_lbl_txt,
+                                  font=("TkDefaultFont", 12))
+        self.show_solution_btn = Button(self, text='Show solution',
+                                        font=("TkDefaultFont", 12),
+                                        command=self.show_solution)
+        self.first_lang_lbl.grid(column=0)
+        self.scd_lang_lbl.grid(column=0)
+        self.show_solution_btn.grid(column=0)
+        print(self.words_choice[self.it])
+
+    def destroy(self):
+        print('TEST DESTRUCTION')
+        self.parent.menu.file_menu.entryconfig("Start Game",
+                                               state='normal')
+        Window.destroy(self)
+        return
 
 
 class MainWindow(Window):
@@ -128,16 +195,30 @@ class MainWindow(Window):
                                                    command=self.cb)
                 self.set_checkbutton.grid(column=0)
         self.menu = MainMenuBar(self)
+        self.cb()
         self.root.config(menu=self.menu)
 
     def cb(self):
+        if len([value for value in self.var if value.get() > 0]):
+            self.menu.file_menu.entryconfig("Start Game", state='normal')
+            print('true')
+        else:
+            self.menu.file_menu.entryconfig("Start Game",
+                                            state='disabled')
+            print('false')
         print('variable is {}'.format(list(map(lambda i: i.get(), self.var))))
 
     def start(self):
         window = Tk()
         self.game_window = GameWindow(self, root=window)
-        print('start')
-        pass
+
+    def save(self):
+        print('save')
+        self.words_sets.save()
+
+    def ask_quit(self):
+        self.save()
+        askokcancel(self)
 
 
 class SetWindow(Window):
@@ -154,28 +235,36 @@ class SetWindow(Window):
                                             state='disabled')
         self.menu = edit_menu.edit_set_menu
         self.master.title(words_set.get_name())
-        first_language_label = Label(self,
-                                     text=words_set.first_language)
-        second_language_label = Label(self,
-                                      text=words_set.second_language)
-        first_language_label.grid(row=0, column=0)
-        second_language_label.grid(row=0, column=1)
+        first_lang_lbl = Label(self, text=words_set.first_language)
+        sec_lang_lbl = Label(self, text=words_set.second_language)
+        weight_lang_lbl = Label(self, text='Weight')
+        first_lang_lbl.grid(row=0, column=0)
+        sec_lang_lbl.grid(row=0, column=1)
+        weight_lang_lbl.grid(row=0, column=2)
         for word in words_set.words:
             frame = Frame(self)
-            frame.grid(column=0, columnspan=2)
-            first_text_variable = StringVar()
-            second_text_variable = StringVar()
+            frame.grid(column=0, columnspan=3)
+            first_txt_var = StringVar()
+            sec_txt_var = StringVar()
+            weight_txt_var = StringVar()
             word_entry_left = Entry(frame,
-                                    textvariable=first_text_variable)
+                                    textvariable=first_txt_var)
             word_entry_left.grid(row=0, column=0)
             word_entry_right = Entry(frame,
-                                     textvariable=second_text_variable)
+                                     textvariable=sec_txt_var)
             word_entry_right.grid(row=0, column=1)
+            word_entry_weight = Entry(frame,
+                                      textvariable=weight_txt_var)
+            word_entry_weight.grid(row=0, column=2)
             word_entry_left.insert(0, word.first)
             word_entry_right.insert(0, word.second)
+            word_entry_weight.insert(0, word.weight)
+
+        save_btn = Button(self, text='Save',
+                          command=self.edit_menu.window.save)
+        save_btn.grid(column=0, columnspan=3, sticky=EW)
 
     def destroy(self):
-        print('test')
         self.menu.entryconfig(self.words_set.get_name(),
                               state='normal')
         Window.destroy(self)

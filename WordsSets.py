@@ -18,37 +18,7 @@
 import codecs
 from json import load, dump
 
-
-class Word:
-    first: str
-    second: str
-    weight: int
-
-    def __init__(self, word: dict):
-        self.first = word['first']
-        self.second = word['second']
-        self.weight = word['weight']
-
-
-class WordsSet:
-    name: str
-    first_language: str
-    second_language: str
-    words: list
-
-    def __init__(self, word_set: dict) -> None:
-        self.name = word_set['name']
-        self.first_language = word_set['first_language']
-        self.second_language = word_set['second_language']
-        self.words = [Word(word) for word in word_set['words']]
-        return
-
-    def get_len(self) -> int:
-        return len(self.words)
-
-    def get_name(self) -> str:
-        return '{}({} words)'.format(self.name, self.get_len())
-        pass
+from WordsSet import WordsSet
 
 
 class WordsSets:

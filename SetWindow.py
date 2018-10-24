@@ -18,8 +18,8 @@
 from tkinter import Menu, Label, Frame, StringVar, Entry, Button, EW
 
 import EditMenu
+import WordsSet
 from Window import Window
-from WordsSets import WordsSet
 
 
 class SetWindow(Window):

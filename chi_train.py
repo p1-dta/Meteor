@@ -17,7 +17,7 @@
 
 from tkinter import Tk
 
-from Window import MainWindow
+from MainWindow import MainWindow
 
 
 def main() -> None:

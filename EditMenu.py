@@ -18,6 +18,7 @@
 from functools import partial
 from tkinter import Menu, Tk
 
+import SetWindow
 import Window
 import WordsSets
 from EditGameSettingMenu import EditGameSettingMenu
@@ -54,5 +55,5 @@ class EditMenu(Menu):
 
     def create_set_window(self, word_set: WordsSets):
         window = Tk()
-        Window.SetWindow(self, word_set, window)
+        SetWindow.SetWindow(self, word_set, window)
         return

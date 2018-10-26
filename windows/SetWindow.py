@@ -17,9 +17,9 @@
 #
 from tkinter import Menu, Label, Frame, StringVar, Entry, Button, EW
 
-import EditMenu
-import WordsSet
-from Window import Window
+from menus import EditMenu
+from words_sets import WordsSet
+from windows.Window import Window
 
 
 class SetWindow(Window):

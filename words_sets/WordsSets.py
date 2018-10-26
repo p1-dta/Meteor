@@ -16,9 +16,9 @@
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 import codecs
-from json import load, dump
+from json import dump
 
-from WordsSet import WordsSet
+from words_sets.WordsSet import WordsSet
 
 
 class WordsSets:
@@ -48,6 +48,6 @@ class WordsSets:
                 tmp_words['weight'] = words.weight
                 tmp_words_set['words'].append(tmp_words)
             save_words_sets['sets'].append(tmp_words_set)
-        with codecs.open('sets.json', 'w', encoding='utf-8') as outfile:
+        with codecs.open('sets/sets.json', 'w', encoding='utf-8') as outfile:
             dump(save_words_sets, outfile, ensure_ascii=False)
         return save_words_sets

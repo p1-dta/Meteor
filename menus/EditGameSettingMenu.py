@@ -17,25 +17,13 @@
 #
 from tkinter import Menu
 
-import EditMenu
-import FileMenu
-import HelpMenu
-import Window
+from menus.EditLengthMenu import EditLengthMenu
 
 
-class MainMenuBar(Menu):
-    parent: Window
-    file_menu: FileMenu
-    edit_menu: EditMenu
-    help_menu: HelpMenu
+class EditGameSettingMenu(Menu):
+    edit_length_menu: EditLengthMenu
 
-    def __init__(self, parent: Window) -> None:
+    def __init__(self):
         Menu.__init__(self)
-        self.parent = parent
-        self.file_menu = FileMenu.FileMenu(self.parent)
-        self.edit_menu = EditMenu.EditMenu(self)
-        self.help_menu = HelpMenu.HelpMenu()
-        self.add_cascade(label='File', menu=self.file_menu)
-        self.add_cascade(label='Edit', menu=self.edit_menu)
-        self.add_cascade(label='Help', menu=self.help_menu)
-        return
+        self.edit_length_menu = EditLengthMenu()
+        self.add_cascade(label='Game Length', menu=self.edit_length_menu)

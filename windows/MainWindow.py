@@ -19,10 +19,10 @@ import codecs
 from json import load
 from tkinter import IntVar, Label, Checkbutton, NE, Tk
 
-import GameWindow
-from MainMenuBar import MainMenuBar
-from Window import Window
-from WordsSets import WordsSets
+from windows import GameWindow
+from menus.MainMenuBar import MainMenuBar
+from windows.Window import Window
+from words_sets.WordsSets import WordsSets
 
 
 class MainWindow(Window):
@@ -38,7 +38,7 @@ class MainWindow(Window):
         select_label = Label(self, text='Select a set of word', anchor=NE)
         select_label.grid(column=0, columnspan=2)
         self.var = list()
-        with codecs.open('sets.json', 'r', encoding='utf-8') as sets:
+        with codecs.open('sets/sets.json', 'r', encoding='utf-8') as sets:
             self.words_sets = WordsSets(load(sets))
             for words_set in self.words_sets.w_s_array:
                 self.var.append(IntVar())

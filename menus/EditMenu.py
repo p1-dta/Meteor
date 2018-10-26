@@ -18,10 +18,9 @@
 from functools import partial
 from tkinter import Menu, Tk
 
-import SetWindow
-import Window
-import WordsSets
-from EditGameSettingMenu import EditGameSettingMenu
+from windows import Window, SetWindow
+from words_sets import WordsSets
+from menus.EditGameSettingMenu import EditGameSettingMenu
 
 
 class EditMenu(Menu):

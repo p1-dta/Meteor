@@ -18,7 +18,7 @@
 from random import choices
 from tkinter import Button, Label
 
-from Window import Window
+from windows.Window import Window
 
 
 class GameWindow(Window):

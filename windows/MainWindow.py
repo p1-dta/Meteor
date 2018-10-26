@@ -55,10 +55,10 @@ class MainWindow(Window):
 
     def cb(self):
         if len([value for value in self.var if value.get() > 0]):
-            self.menu.file_menu.entryconfig("Start Game", state='normal')
+            self.menu.file_menu.entryconfig('Start Game', state='normal')
             self.start_button.config(state='normal')
         else:
-            self.menu.file_menu.entryconfig("Start Game",
+            self.menu.file_menu.entryconfig('Start Game',
                                             state='disabled')
             self.start_button.config(state='disabled')
 

@@ -47,4 +47,11 @@ class FileMenu(Menu):
         self.add_command(label='Settings', command=callback)
         self.add_separator()
         self.add_command(label='Exit', command=window.ask_quit)
+        # disable : Under construction
+        self.entryconfig('Restart Game', state='disabled')
+        self.entryconfig('Stop Game', state='disabled')
+        self.entryconfig('New Set', state='disabled')
+        self.entryconfig('Import Set Pack', state='disabled')
+        self.entryconfig('Export Set Pack', state='disabled')
+        self.entryconfig('Settings', state='disabled')
         return

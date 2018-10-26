@@ -17,12 +17,12 @@
 #
 import codecs
 from json import load
-from tkinter import IntVar, Label, Checkbutton, NE, Tk
+from tkinter import IntVar, Label, Checkbutton, NE, Tk, W, Button, EW
 
-import GameWindow
-from MainMenuBar import MainMenuBar
-from Window import Window
-from WordsSets import WordsSets
+from windows import GameWindow
+from menus.MainMenuBar import MainMenuBar
+from windows.Window import Window
+from words_sets.WordsSets import WordsSets
 
 
 class MainWindow(Window):
@@ -38,7 +38,7 @@ class MainWindow(Window):
         select_label = Label(self, text='Select a set of word', anchor=NE)
         select_label.grid(column=0, columnspan=2)
         self.var = list()
-        with codecs.open('sets.json', 'r', encoding='utf-8') as sets:
+        with codecs.open('sets/sets.json', 'r', encoding='utf-8') as sets:
             self.words_sets = WordsSets(load(sets))
             for words_set in self.words_sets.w_s_array:
                 self.var.append(IntVar())
@@ -46,17 +46,21 @@ class MainWindow(Window):
                                                    text=words_set.get_name(),
                                                    variable=self.var[-1],
                                                    command=self.cb)
-                self.set_checkbutton.grid(column=0)
+                self.set_checkbutton.grid(column=0, sticky=W)
+        self.start_button = Button(self, text='Start Game', command=self.start)
+        self.start_button.grid(column=0)
         self.menu = MainMenuBar(self)
         self.cb()
         self.root.config(menu=self.menu)
 
     def cb(self):
         if len([value for value in self.var if value.get() > 0]):
-            self.menu.file_menu.entryconfig("Start Game", state='normal')
+            self.menu.file_menu.entryconfig('Start Game', state='normal')
+            self.start_button.config(state='normal')
         else:
-            self.menu.file_menu.entryconfig("Start Game",
+            self.menu.file_menu.entryconfig('Start Game',
                                             state='disabled')
+            self.start_button.config(state='disabled')
 
     def start(self):
         window = Tk()

@@ -17,9 +17,9 @@
 #
 from tkinter import Menu, Label, Frame, StringVar, Entry, Button, EW
 
-import EditMenu
-import WordsSet
-from Window import Window
+from menus import EditMenu
+from words_sets import WordsSet
+from windows.Window import Window
 
 
 class SetWindow(Window):
@@ -64,6 +64,7 @@ class SetWindow(Window):
         save_btn = Button(self, text='Save',
                           command=self.edit_menu.window.save)
         save_btn.grid(column=0, columnspan=3, sticky=EW)
+        save_btn.config(state='disabled')
 
     def destroy(self):
         self.menu.entryconfig(self.words_set.get_name(),

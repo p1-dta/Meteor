@@ -32,6 +32,10 @@ def issue_redirect():
     webbrowser.open('https://github.com/Vikka/ChiTrain/issues')
 
 
+def trello_redirect():
+    webbrowser.open('https://trello.com/b/BzJe34V1/chitrain')
+
+
 class HelpMenu(Menu):
     def __init__(self) -> None:
         Menu.__init__(self)
@@ -40,4 +44,8 @@ class HelpMenu(Menu):
         self.add_command(label='Github Repository',
                          command=repository_redirect)
         self.add_command(label='Report Problem', command=issue_redirect)
+        self.add_command(label='Trello', command=trello_redirect)
         self.add_command(label='About', command=callback)
+        # disable : Under construction
+        self.entryconfig('Getting Started', state='disabled')
+        self.entryconfig('About', state='disabled')

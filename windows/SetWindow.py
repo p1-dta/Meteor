@@ -64,6 +64,7 @@ class SetWindow(Window):
         save_btn = Button(self, text='Save',
                           command=self.edit_menu.window.save)
         save_btn.grid(column=0, columnspan=3, sticky=EW)
+        save_btn.config(state='disabled')
 
     def destroy(self):
         self.menu.entryconfig(self.words_set.get_name(),

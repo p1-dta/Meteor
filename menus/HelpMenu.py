@@ -41,3 +41,6 @@ class HelpMenu(Menu):
                          command=repository_redirect)
         self.add_command(label='Report Problem', command=issue_redirect)
         self.add_command(label='About', command=callback)
+        # disable : Under construction
+        self.entryconfig('Getting Started', state='disabled')
+        self.entryconfig('About', state='disabled')

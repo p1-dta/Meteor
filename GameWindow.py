@@ -61,9 +61,9 @@ class GameWindow(Window):
             self.parent.words_sets.w_s_array[
                 self.words_choice[self.it][1]].second_language)
         self.first_lang_lbl = Label(self, text=first_lang_lbl_txt,
-                                    font=("TkDefaultFont", 12))
+                                    font=("TkDefaultFont", 20))
         self.scd_lang_lbl = Label(self, text=sec_lang_lbl_txt,
-                                  font=("TkDefaultFont", 12))
+                                  font=("TkDefaultFont", 20))
         self.show_solution_btn = Button(self, text='Show solution',
                                         font=("TkDefaultFont", 12),
                                         command=self.show_solution)
@@ -122,9 +122,9 @@ class GameWindow(Window):
             self.parent.words_sets.w_s_array[
                 self.words_choice[self.it][1]].second_language)
         self.first_lang_lbl = Label(self, text=first_lang_lbl_txt,
-                                    font=("TkDefaultFont", 12))
+                                    font=("TkDefaultFont", 20))
         self.scd_lang_lbl = Label(self, text=sec_lang_lbl_txt,
-                                  font=("TkDefaultFont", 12))
+                                  font=("TkDefaultFont", 20))
         self.show_solution_btn = Button(self, text='Show solution',
                                         font=("TkDefaultFont", 12),
                                         command=self.show_solution)

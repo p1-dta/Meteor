@@ -17,7 +17,7 @@
 #
 import codecs
 from json import load
-from tkinter import IntVar, Label, Checkbutton, NE, Tk
+from tkinter import IntVar, Label, Checkbutton, NE, Tk, W
 
 from windows import GameWindow
 from menus.MainMenuBar import MainMenuBar
@@ -46,7 +46,7 @@ class MainWindow(Window):
                                                    text=words_set.get_name(),
                                                    variable=self.var[-1],
                                                    command=self.cb)
-                self.set_checkbutton.grid(column=0)
+                self.set_checkbutton.grid(column=0, sticky=W)
         self.menu = MainMenuBar(self)
         self.cb()
         self.root.config(menu=self.menu)

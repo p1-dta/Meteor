@@ -1,3 +1,4 @@
+#
 #     ChiTrain
 #     Copyright (C) 2018 Dorian Turba
 #
@@ -14,18 +15,15 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from tkinter import Menu
 
-from tkinter import Tk
-
-from windows.MainWindow import MainWindow
-
-
-def main() -> None:
-    root = Tk()
-    chi_train_app = MainWindow(root)
-    chi_train_app.master.title('Chinese Training')
-    root.mainloop()
-    return None
+from menus.EditLengthMenu import EditLengthMenu
 
 
-main()
+class EditGameSettingMenu(Menu):
+    edit_length_menu: EditLengthMenu
+
+    def __init__(self):
+        Menu.__init__(self)
+        self.edit_length_menu = EditLengthMenu()
+        self.add_cascade(label='Game Length', menu=self.edit_length_menu)

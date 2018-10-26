@@ -15,6 +15,7 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+import webbrowser
 from tkinter import Menu
 
 
@@ -23,28 +24,28 @@ def callback():
     pass
 
 
-def import_pack():
-    print('called the import!')
-    pass
+def repository_redirect():
+    webbrowser.open('https://github.com/Vikka/ChiTrain')
 
 
-def export_pack():
-    print('called the export!')
-    pass
+def issue_redirect():
+    webbrowser.open('https://github.com/Vikka/ChiTrain/issues')
 
 
-class FileMenu(Menu):
-    def __init__(self, window) -> None:
+def trello_redirect():
+    webbrowser.open('https://trello.com/b/BzJe34V1/chitrain')
+
+
+class HelpMenu(Menu):
+    def __init__(self) -> None:
         Menu.__init__(self)
-        self.add_command(label='Start Game', command=window.start)
-        self.add_command(label='Restart Game', command=callback)
-        self.add_command(label='Stop Game', command=callback)
+        self.add_command(label='Getting Started', command=callback)
         self.add_separator()
-        self.add_command(label='New Set', command=callback)
-        self.add_command(label='Import Set Pack', command=import_pack)
-        self.add_command(label='Export Set Pack', command=export_pack)
-        self.add_separator()
-        self.add_command(label='Settings', command=callback)
-        self.add_separator()
-        self.add_command(label='Exit', command=window.ask_quit)
-        return
+        self.add_command(label='Github Repository',
+                         command=repository_redirect)
+        self.add_command(label='Report Problem', command=issue_redirect)
+        self.add_command(label='Trello', command=trello_redirect)
+        self.add_command(label='About', command=callback)
+        # disable : Under construction
+        self.entryconfig('Getting Started', state='disabled')
+        self.entryconfig('About', state='disabled')

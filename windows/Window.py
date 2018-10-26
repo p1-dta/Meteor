@@ -15,27 +15,20 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from tkinter import Menu
-
-import EditMenu
-import FileMenu
-import HelpMenu
-import Window
+from tkinter import Frame, Tk
+from tkinter.messagebox import askokcancel
 
 
-class MainMenuBar(Menu):
-    parent: Window
-    file_menu: FileMenu
-    edit_menu: EditMenu
-    help_menu: HelpMenu
+class Window(Frame):
+    root: Tk
 
-    def __init__(self, parent: Window) -> None:
-        Menu.__init__(self)
-        self.parent = parent
-        self.file_menu = FileMenu.FileMenu(self.parent)
-        self.edit_menu = EditMenu.EditMenu(self)
-        self.help_menu = HelpMenu.HelpMenu()
-        self.add_cascade(label='File', menu=self.file_menu)
-        self.add_cascade(label='Edit', menu=self.edit_menu)
-        self.add_cascade(label='Help', menu=self.help_menu)
-        return
+    def __init__(self, parent=None):
+        Frame.__init__(self, parent)
+        Frame.pack(self)
+        self.root = parent
+
+    def ask_quit(self):
+        if askokcancel("Quit", "You want to quit now?"):
+            self.quit()
+
+

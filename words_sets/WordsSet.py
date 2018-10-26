@@ -15,15 +15,25 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from tkinter import Menu
-
-from EditLengthMenu import EditLengthMenu
+from words_sets.Word import Word
 
 
-class EditGameSettingMenu(Menu):
-    edit_length_menu: EditLengthMenu
+class WordsSet:
+    name: str
+    first_language: str
+    second_language: str
+    words: list
 
-    def __init__(self):
-        Menu.__init__(self)
-        self.edit_length_menu = EditLengthMenu()
-        self.add_cascade(label='Game Length', menu=self.edit_length_menu)
+    def __init__(self, word_set: dict) -> None:
+        self.name = word_set['name']
+        self.first_language = word_set['first_language']
+        self.second_language = word_set['second_language']
+        self.words = [Word(word) for word in word_set['words']]
+        return
+
+    def get_len(self) -> int:
+        return len(self.words)
+
+    def get_name(self) -> str:
+        return '{}({} words)'.format(self.name, self.get_len())
+        pass

@@ -15,29 +15,14 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-import webbrowser
-from tkinter import Menu
 
 
-def callback():
-    print('called the callback!')
-    pass
+class Word:
+    first: str
+    second: str
+    weight: int
 
-
-def repository_redirect():
-    webbrowser.open('https://github.com/Vikka/ChiTrain')
-
-
-def issue_redirect():
-    webbrowser.open('https://github.com/Vikka/ChiTrain/issues')
-
-
-class HelpMenu(Menu):
-    def __init__(self) -> None:
-        Menu.__init__(self)
-        self.add_command(label='Getting Started', command=callback)
-        self.add_separator()
-        self.add_command(label='Github Repository',
-                         command=repository_redirect)
-        self.add_command(label='Report Problem', command=issue_redirect)
-        self.add_command(label='About', command=callback)
+    def __init__(self, word: dict):
+        self.first = word['first']
+        self.second = word['second']
+        self.weight = word['weight']

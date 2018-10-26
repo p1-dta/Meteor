@@ -16,39 +16,9 @@
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 import codecs
-from json import load, dump
+from json import dump
 
-
-class Word:
-    first: str
-    second: str
-    weight: int
-
-    def __init__(self, word: dict):
-        self.first = word['first']
-        self.second = word['second']
-        self.weight = word['weight']
-
-
-class WordsSet:
-    name: str
-    first_language: str
-    second_language: str
-    words: list
-
-    def __init__(self, word_set: dict) -> None:
-        self.name = word_set['name']
-        self.first_language = word_set['first_language']
-        self.second_language = word_set['second_language']
-        self.words = [Word(word) for word in word_set['words']]
-        return
-
-    def get_len(self) -> int:
-        return len(self.words)
-
-    def get_name(self) -> str:
-        return '{}({} words)'.format(self.name, self.get_len())
-        pass
+from words_sets.WordsSet import WordsSet
 
 
 class WordsSets:
@@ -78,6 +48,6 @@ class WordsSets:
                 tmp_words['weight'] = words.weight
                 tmp_words_set['words'].append(tmp_words)
             save_words_sets['sets'].append(tmp_words_set)
-        with codecs.open('sets.json', 'w', encoding='utf-8') as outfile:
+        with codecs.open('sets/sets.json', 'w', encoding='utf-8') as outfile:
             dump(save_words_sets, outfile, ensure_ascii=False)
         return save_words_sets

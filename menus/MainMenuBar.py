@@ -1,3 +1,4 @@
+#
 #     ChiTrain
 #     Copyright (C) 2018 Dorian Turba
 #
@@ -14,18 +15,25 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from tkinter import Menu
 
-from tkinter import Tk
-
-from windows.MainWindow import MainWindow
-
-
-def main() -> None:
-    root = Tk()
-    chi_train_app = MainWindow(root)
-    chi_train_app.master.title('Chinese Training')
-    root.mainloop()
-    return None
+from menus import EditMenu, FileMenu, HelpMenu
+from windows import Window
 
 
-main()
+class MainMenuBar(Menu):
+    parent: Window
+    file_menu: FileMenu
+    edit_menu: EditMenu
+    help_menu: HelpMenu
+
+    def __init__(self, parent: Window) -> None:
+        Menu.__init__(self)
+        self.parent = parent
+        self.file_menu = FileMenu.FileMenu(self.parent)
+        self.edit_menu = EditMenu.EditMenu(self)
+        self.help_menu = HelpMenu.HelpMenu()
+        self.add_cascade(label='File', menu=self.file_menu)
+        self.add_cascade(label='Edit', menu=self.edit_menu)
+        self.add_cascade(label='Help', menu=self.help_menu)
+        return

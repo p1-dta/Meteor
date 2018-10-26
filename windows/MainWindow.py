@@ -17,7 +17,7 @@
 #
 import codecs
 from json import load
-from tkinter import IntVar, Label, Checkbutton, NE, Tk, W
+from tkinter import IntVar, Label, Checkbutton, NE, Tk, W, Button, EW
 
 from windows import GameWindow
 from menus.MainMenuBar import MainMenuBar
@@ -47,6 +47,8 @@ class MainWindow(Window):
                                                    variable=self.var[-1],
                                                    command=self.cb)
                 self.set_checkbutton.grid(column=0, sticky=W)
+        self.start_button = Button(self, text='Start Game', command=self.start)
+        self.start_button.grid(column=0)
         self.menu = MainMenuBar(self)
         self.cb()
         self.root.config(menu=self.menu)
@@ -54,9 +56,11 @@ class MainWindow(Window):
     def cb(self):
         if len([value for value in self.var if value.get() > 0]):
             self.menu.file_menu.entryconfig("Start Game", state='normal')
+            self.start_button.config(state='normal')
         else:
             self.menu.file_menu.entryconfig("Start Game",
                                             state='disabled')
+            self.start_button.config(state='disabled')
 
     def start(self):
         window = Tk()

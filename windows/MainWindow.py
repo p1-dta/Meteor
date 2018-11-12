@@ -17,10 +17,15 @@
 #
 import codecs
 from json import load
-from tkinter import IntVar, Label, Checkbutton, NE, Tk, W, Button, EW
+from tkinter import IntVar, Label, Checkbutton, NE, Tk, W, Button
 
-from windows import GameWindow
+import requests
+
 from menus.MainMenuBar import MainMenuBar
+from settings.Settings import Settings
+from version.Version import Version
+from windows import GameWindow
+from windows.UpdateWindow import UpdateWindow
 from windows.Window import Window
 from words_sets.WordsSets import WordsSets
 
@@ -31,6 +36,8 @@ class MainWindow(Window):
     words_sets: WordsSets
     set_checkbutton: Checkbutton
     game_window: GameWindow
+    soft_update_win: UpdateWindow
+    settings: Settings
 
     def __init__(self, parent=None):
         Window.__init__(self, parent)
@@ -47,11 +54,16 @@ class MainWindow(Window):
                                                    variable=self.var[-1],
                                                    command=self.cb)
                 self.set_checkbutton.grid(column=0, sticky=W)
+        with codecs.open('settings/settings.json', 'r', encoding='utf-8') as settings:
+            self.settings = Settings(settings)
+        with codecs.open('version/version.json', 'r', encoding='utf-8') as version:
+            self.version = Version(version)
         self.start_button = Button(self, text='Start Game', command=self.start)
         self.start_button.grid(column=0)
         self.menu = MainMenuBar(self)
         self.cb()
         self.root.config(menu=self.menu)
+        self.software_update()
 
     def cb(self):
         if len([value for value in self.var if value.get() > 0]):
@@ -72,3 +84,24 @@ class MainWindow(Window):
     def ask_quit(self):
         self.save()
         Window.ask_quit(self)
+
+    def software_update(self):
+        url = 'https://api.github.com/repos/Vikka/ChiTrain/releases'
+        try:
+            response = requests.get(url, timeout=2)
+        except requests.exceptions.Timeout:
+            print('timeout')
+            return()
+            # Maybe set up for a retry, or continue in a retry loop
+        except requests.exceptions.TooManyRedirects:
+            print('toomanyredirect')
+            return ()
+            # Tell the user their URL was bad and try a different one
+        except requests.exceptions.RequestException as e:
+            print('requestexception')
+            print(e)
+            return ()
+
+        if response.status_code == 200:
+            if response.json()[0]['tag_name'] != 'v0.1.0':
+                self.soft_update_win = UpdateWindow(response, Tk())

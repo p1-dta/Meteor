@@ -54,10 +54,10 @@ class MainWindow(Window):
                                                    variable=self.var[-1],
                                                    command=self.cb)
                 self.set_checkbutton.grid(column=0, sticky=W)
-        with codecs.open('settings/settings.json', 'r', encoding='utf-8') as settings:
-            self.settings = Settings(settings)
-        with codecs.open('version/version.json', 'r', encoding='utf-8') as version:
-            self.version = Version(version)
+        self.settings = Settings()
+        with codecs.open('version/version.json', 'r', encoding='utf-8')\
+                as version:
+            self.version = Version(load(version))
         self.start_button = Button(self, text='Start Game', command=self.start)
         self.start_button.grid(column=0)
         self.menu = MainMenuBar(self)
@@ -103,5 +103,7 @@ class MainWindow(Window):
             return ()
 
         if response.status_code == 200:
-            if response.json()[0]['tag_name'] != 'v0.1.0':
+            if response.json()[0]['tag_name'] != self.version.version_num:
                 self.soft_update_win = UpdateWindow(response, Tk())
+            else:
+                print('same version' + self.version.version_num)

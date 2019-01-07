@@ -13,21 +13,7 @@ ChiTrain was first designed to help you learn Chinese language, but it appear th
 
 ## How to use it
 
-Language Training allow you to select multiple sets of elements.
-
-First step, select one or more :
-
-![main_window of Language Training](https://user-images.githubusercontent.com/9381120/47983500-73006e80-e10e-11e8-89c7-e29fbd93ba2a.PNG)
-
-Then, the first element will be displayed, the only thing you have to do is write (or "think" for lazy) the corresponding asked answer.
-
-![main_window of Language Training](https://user-images.githubusercontent.com/9381120/47984022-40f00c00-e110-11e8-9f76-adb7ac844770.PNG)
-
-Then, press `Show Solution` button.
-
-![main_window of Language Training](https://user-images.githubusercontent.com/9381120/47984744-80b7f300-e112-11e8-9960-f99f8dbbc042.PNG)
-
-If your answers is correct compared to the solution, select `Correct` and the word will appears less often, if not, select `False` and the word will appear more often.
+Work In Progress
 
 ## Getting Started
 

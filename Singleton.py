@@ -1,6 +1,6 @@
 #
 #     ChiTrain
-#     Copyright (C) 2018 Dorian Turba
+#     Copyright (C) 2019 Dorian Turba
 #
 #     This program is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by
@@ -15,11 +15,13 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from Singleton import Singleton
 
 
-class Version(metaclass=Singleton):
-    version_num: str
+class Singleton(type):
+    _instances = {}
 
-    def __init__(self, version):
-        self.version_num = version['version_num']
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args,
+                                                                 **kwargs)
+        return cls._instances[cls]

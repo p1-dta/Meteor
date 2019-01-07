@@ -15,11 +15,21 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+import codecs
+from json import load
+
 from Singleton import Singleton
 
 
-class Version(metaclass=Singleton):
-    version_num: str
+class Settings(metaclass=Singleton):
+    repetition_limit: int
+    time_limit: int
+    mode: int
 
-    def __init__(self, version):
-        self.version_num = version['version_num']
+    def __init__(self):
+        with codecs.open('settings/settings.json', 'r', encoding='utf-8')\
+                as settings:
+            raw_settings = load(settings)
+        self.repetition_limit = raw_settings['repetition_limit']
+        self.time_limit = raw_settings['time_limit']
+        self.mode = raw_settings['mode']

@@ -16,8 +16,6 @@
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 import codecs
-import os
-import sys
 from json import load
 from tkinter import IntVar, Label, Checkbutton, NE, Tk, W, Button
 

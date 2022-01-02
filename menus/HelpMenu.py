@@ -25,15 +25,15 @@ def callback():
 
 
 def repository_redirect():
-    webbrowser.open('https://github.com/Vikka/ChiTrain')
+    webbrowser.open('https://github.com/Vikka/Meteor')
 
 
 def issue_redirect():
-    webbrowser.open('https://github.com/Vikka/ChiTrain/issues')
+    webbrowser.open('https://github.com/Vikka/Meteor/issues')
 
 
 def trello_redirect():
-    webbrowser.open('https://trello.com/b/BzJe34V1/chitrain')
+    webbrowser.open('https://trello.com/b/BzJe34V1/Meteor')
 
 
 class HelpMenu(Menu):

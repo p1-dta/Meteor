@@ -1,11 +1,11 @@
-# ChiTrain
+# Meteor
 
-ChiTrain was first designed to help you learn Chinese language, but it appear that you could do a lot more things. It's a very simple, very minimalist learning tool for everything that can be hand writen and displayed on a screen. Language, Mathematics formula, Family birthday, you can learn whatever you want.
+Meteor was first designed to help you learn Chinese language, but it appear that you could do a lot more things. It's a very simple, very minimalist learning tool for everything that can be hand writen and displayed on a screen. Language, Mathematics formula, Family birthday, you can learn whatever you want.
 
 ## Last Released Version
 
 * For Windows: 
-    * (pre-release) [Language Training v0.2](https://github.com/Vikka/ChiTrain/releases/download/v0.2/language_training_v0.2.zip)
+    * (pre-release) [Language Training v0.2](https://github.com/Vikka/Meteor/releases/download/v0.2/language_training_v0.2.zip)
 * For Macintosh:
     * Not yet released
 * For Linux:

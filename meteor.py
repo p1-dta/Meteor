@@ -1,6 +1,5 @@
-#
-#     ChiTrain
-#     Copyright (C) 2019 Dorian Turba
+#     Meteor
+#     Copyright (C) 2018 Dorian Turba
 #
 #     This program is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by
@@ -15,13 +14,16 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from tkinter import Tk
+
+from windows.MainWindow import MainWindow
 
 
-class Singleton(type):
-    _instances = {}
+def main() -> None:
+    root = Tk()
+    chi_train_app = MainWindow(root)
+    chi_train_app.master.title('Meteor')
+    root.mainloop()
 
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args,
-                                                                 **kwargs)
-        return cls._instances[cls]
+
+main()

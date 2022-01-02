@@ -1,5 +1,5 @@
 #
-#     ChiTrain
+#     Meteor
 #     Copyright (C) 2018 Dorian Turba
 #
 #     This program is free software: you can redistribute it and/or modify
@@ -36,9 +36,9 @@ def export_pack():
 class FileMenu(Menu):
     def __init__(self, window) -> None:
         Menu.__init__(self)
-        self.add_command(label='Start Game', command=window.start)
-        self.add_command(label='Restart Game', command=callback)
-        self.add_command(label='Stop Game', command=callback)
+        self.add_command(label='Start', command=window.start)
+        self.add_command(label='Restart', command=callback)
+        self.add_command(label='Stop', command=callback)
         self.add_separator()
         self.add_command(label='New Set', command=callback)
         self.add_command(label='Import Set Pack', command=import_pack)
@@ -46,10 +46,10 @@ class FileMenu(Menu):
         self.add_separator()
         self.add_command(label='Settings', command=callback)
         self.add_separator()
-        self.add_command(label='Exit', command=window.ask_quit)
+        self.add_command(label='Exit', command=window.askokcancel)
         # disable : Under construction
-        self.entryconfig('Restart Game', state='disabled')
-        self.entryconfig('Stop Game', state='disabled')
+        self.entryconfig('Restart', state='disabled')
+        self.entryconfig('Stop', state='disabled')
         self.entryconfig('New Set', state='disabled')
         self.entryconfig('Import Set Pack', state='disabled')
         self.entryconfig('Export Set Pack', state='disabled')

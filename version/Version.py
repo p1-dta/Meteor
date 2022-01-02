@@ -1,5 +1,5 @@
 #
-#     ChiTrain
+#     Meteor
 #     Copyright (C) 2018 Dorian Turba
 #
 #     This program is free software: you can redistribute it and/or modify
@@ -15,12 +15,4 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
-
-class Version:
-    version_num: str
-    version_compatibility_name: str
-
-    def __init__(self, version):
-        self.version_num = version['version_num']
-        self.version_compatibility_name = version['version_compatibility_name']
+VERSION = 'v0.1.1'

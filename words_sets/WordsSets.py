@@ -1,5 +1,5 @@
 #
-#     ChiTrain
+#     Meteor
 #     Copyright (C) 2018 Dorian Turba
 #
 #     This program is free software: you can redistribute it and/or modify
@@ -16,38 +16,16 @@
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 import codecs
-from json import dump
+from json import dump, dumps
 
 from words_sets.WordsSet import WordsSet
 
 
-class WordsSets:
-    w_s_array: list
-
-    def __init__(self, words_sets: dict) -> None:
-        self.w_s_array = [WordsSet(words_set)
-                          for words_set in words_sets["sets"]]
-        return
-
-    def get_len(self) -> int:
-        return len(self.w_s_array)
+class WordsSets(list):
+    def __init__(self, words: list) -> None:
+        super().__init__([WordsSet(words_set) for words_set in words])
 
     def save(self):
-        save_words_sets = dict()
-        save_words_sets['sets'] = list()
-        for words_set in self.w_s_array:
-            tmp_words_set = dict()
-            tmp_words_set['name'] = words_set.name
-            tmp_words_set['first_language'] = words_set.first_language
-            tmp_words_set['second_language'] = words_set.second_language
-            tmp_words_set['words'] = list()
-            for words in words_set.words:
-                tmp_words = dict()
-                tmp_words['first'] = words.first
-                tmp_words['second'] = words.second
-                tmp_words['weight'] = words.weight
-                tmp_words_set['words'].append(tmp_words)
-            save_words_sets['sets'].append(tmp_words_set)
         with codecs.open('sets/sets.json', 'w', encoding='utf-8') as outfile:
-            dump(save_words_sets, outfile, ensure_ascii=False)
-        return save_words_sets
+            dump(self, outfile, default=lambda o: o.__dict__, indent=2,
+                 ensure_ascii=False)

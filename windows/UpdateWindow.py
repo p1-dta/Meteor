@@ -1,5 +1,5 @@
 #
-#     ChiTrain
+#     Meteor
 #     Copyright (C) 2018 Dorian Turba
 #
 #     This program is free software: you can redistribute it and/or modify
@@ -17,49 +17,50 @@
 #
 import webbrowser
 from functools import partial
-from tkinter import Label, Frame, Button, E
+from tkinter import Label, Frame, Button, E, Listbox, Scrollbar, S, N, Canvas, \
+    W, NW, TclError
 
 from requests import Response
 
 from windows.Window import Window
 
 
+class AutoScrollbar(Scrollbar):
+    def set(self, lo, hi):
+        if float(lo) <= 0.0 and float(hi) >= 1.0:
+            # grid_remove is currently missing from Tkinter!
+            self.tk.call("grid", "remove", self)
+        else:
+            self.grid()
+        Scrollbar.set(self, lo, hi)
+
+    @staticmethod
+    def pack(**kw):
+        print("cannot use pack with this widget")
+        raise TclError
+
+    @staticmethod
+    def place(**kw):
+        print("cannot use place with this widget")
+        raise TclError
+
+
 class UpdateWindow(Window):
     def __init__(self, response: Response, parent=None):
         Window.__init__(self, parent)
-        tag_name = response.json()[0]['tag_name']
-        name = response.json()[0]['name']
-        release_author = response.json()[0]['author']['login']
-        author_url = response.json()[0]['author']['url']
-        update_lbl = Label(self, text='An update is available',
-                           font=("TkDefaultFont", 16))
-        name_lbl = Label(self, text='Release name: {}'.format(name),
-                         font=("TkDefaultFont", 16))
-        version_lbl = Label(self, text='Version: {}'.format(tag_name),
-                            font=("TkDefaultFont", 16))
-        release_aut_lbl = Label(self, text='Release Author: {}'
-                                .format(release_author),
-                                font=("TkDefaultFont", 16))
-        update_lbl.grid(column=0)
-        name_lbl.grid(column=0)
-        version_lbl.grid(column=0)
-        release_aut_lbl.grid(column=0)
-        for asset in response.json()[0]['assets']:
-            download_frame = Frame()
-            file_name = asset['name']
-            file_url = asset['browser_download_url']
-            download_count = asset['download_count']
-            file_name_lvl = Label(download_frame, text='{}'.format(file_name),
-                                  font=("TkDefaultFont", 16))
-            download_file = partial(webbrowser.open, file_url)
-            download_btn = Button(download_frame, text='Download',
-                                  command=download_file)
-            download_count_lvl = Label(download_frame, text='Downloads: {}'
-                                       .format(download_count),
-                                       font=("TkDefaultFont", 16))
-            file_name_lvl.grid(row=0, column=0)
-            download_btn.grid(row=0, column=1)
-            download_count_lvl.grid(row=0, column=2, sticky=E)
-            download_frame.grid(column=0)
-        parent.attributes("-topmost", True)
 
+        name = response.json()[0]['name']
+        html_url = response.json()[0]['html_url']
+
+        release_name_lbl = Label(self, text=name)
+        download_file = partial(webbrowser.open, html_url)
+        download_btn = Button(self,
+                              text='downloads',
+                              command=download_file)
+        update_lbl = Label(self, text='An update is available:',
+                           font=("TkDefaultFont", 14))
+
+        update_lbl.grid(column=0)
+        release_name_lbl.grid(row=1, column=0, sticky=W)
+        download_btn.grid(row=1, column=2, sticky=W)
+        parent.attributes("-topmost", True)

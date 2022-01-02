@@ -1,5 +1,5 @@
 #
-#     ChiTrain
+#     Meteor
 #     Copyright (C) 2018 Dorian Turba
 #
 #     This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,11 @@ class Window(Frame):
     root: Tk
 
     def __init__(self, parent=None):
-        Frame.__init__(self, parent)
+        super().__init__(parent)
         Frame.pack(self)
         self.root = parent
 
-    def ask_quit(self):
+    def askokcancel(self):
         if askokcancel("Quit", "You want to quit now?"):
             self.quit()
 

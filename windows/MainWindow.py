@@ -1,5 +1,5 @@
 #
-#     ChiTrain
+#     Meteor
 #     Copyright (C) 2018 Dorian Turba
 #
 #     This program is free software: you can redistribute it and/or modify
@@ -16,14 +16,15 @@
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 import codecs
+import os
+import sys
 from json import load
 from tkinter import IntVar, Label, Checkbutton, NE, Tk, W, Button
 
 import requests
 
 from menus.MainMenuBar import MainMenuBar
-from settings.Settings import Settings
-from version.Version import Version
+from version.Version import VERSION
 from windows import GameWindow
 from windows.UpdateWindow import UpdateWindow
 from windows.Window import Window
@@ -31,34 +32,29 @@ from words_sets.WordsSets import WordsSets
 
 
 class MainWindow(Window):
-    var: list
+    var: list[IntVar]
     menu: MainMenuBar
     words_sets: WordsSets
     set_checkbutton: Checkbutton
     game_window: GameWindow
     soft_update_win: UpdateWindow
-    settings: Settings
 
     def __init__(self, parent=None):
-        Window.__init__(self, parent)
-        self.root.protocol('WM_DELETE_WINDOW', self.ask_quit)
+        super().__init__(parent)
+        self.root.protocol('WM_DELETE_WINDOW', self.save_and_askokcancel)
         select_label = Label(self, text='Select a set of word', anchor=NE)
         select_label.grid(column=0, columnspan=2)
         self.var = list()
         with codecs.open('sets/sets.json', 'r', encoding='utf-8') as sets:
             self.words_sets = WordsSets(load(sets))
-            for words_set in self.words_sets.w_s_array:
+            for words_set in self.words_sets:
                 self.var.append(IntVar())
                 self.set_checkbutton = Checkbutton(self,
                                                    text=words_set.get_name(),
                                                    variable=self.var[-1],
                                                    command=self.cb)
                 self.set_checkbutton.grid(column=0, sticky=W)
-        with codecs.open('settings/settings.json', 'r', encoding='utf-8') as settings:
-            self.settings = Settings(settings)
-        with codecs.open('version/version.json', 'r', encoding='utf-8') as version:
-            self.version = Version(version)
-        self.start_button = Button(self, text='Start Game', command=self.start)
+        self.start_button = Button(self, text='Start', command=self.start)
         self.start_button.grid(column=0)
         self.menu = MainMenuBar(self)
         self.cb()
@@ -67,11 +63,10 @@ class MainWindow(Window):
 
     def cb(self):
         if len([value for value in self.var if value.get() > 0]):
-            self.menu.file_menu.entryconfig('Start Game', state='normal')
+            self.menu.file_menu.entryconfig('Start', state='normal')
             self.start_button.config(state='normal')
         else:
-            self.menu.file_menu.entryconfig('Start Game',
-                                            state='disabled')
+            self.menu.file_menu.entryconfig('Start', state='disabled')
             self.start_button.config(state='disabled')
 
     def start(self):
@@ -81,27 +76,17 @@ class MainWindow(Window):
     def save(self):
         self.words_sets.save()
 
-    def ask_quit(self):
+    def save_and_askokcancel(self):
         self.save()
-        Window.ask_quit(self)
+        Window.askokcancel(self)
 
     def software_update(self):
-        url = 'https://api.github.com/repos/Vikka/ChiTrain/releases'
+        url = 'https://api.github.com/repos/Vikka/Meteor/releases'
         try:
             response = requests.get(url, timeout=2)
-        except requests.exceptions.Timeout:
-            print('timeout')
-            return()
-            # Maybe set up for a retry, or continue in a retry loop
-        except requests.exceptions.TooManyRedirects:
-            print('toomanyredirect')
-            return ()
-            # Tell the user their URL was bad and try a different one
-        except requests.exceptions.RequestException as e:
-            print('requestexception')
-            print(e)
-            return ()
+        except requests.exceptions:
+            return  # Do nothing, no update if no response
 
-        if response.status_code == 200:
-            if response.json()[0]['tag_name'] != 'v0.1.0':
-                self.soft_update_win = UpdateWindow(response, Tk())
+        if response.status_code == 200 \
+                and response.json()[0].get('tag_name') != VERSION:
+            self.soft_update_win = UpdateWindow(response, Tk())

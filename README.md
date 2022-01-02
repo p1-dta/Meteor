@@ -5,7 +5,7 @@ Meteor was first designed to help you learn Chinese language, but it appear that
 ## Last Released Version
 
 * For Windows: 
-    * (pre-release) [Language Training v0.1.1](https://github.com/Vikka/Meteor/releases/download/v0.1.1/language_training_v0.1.1.zip)
+    * (pre-release) [Language Training v0.2](https://github.com/Vikka/Meteor/releases/download/v0.2/language_training_v0.2.zip)
 * For Macintosh:
     * Not yet released
 * For Linux:

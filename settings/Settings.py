@@ -15,21 +15,22 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from tkinter import Menu, IntVar
+from json import load, dump
+
+SETTINGS_PATH = 'settings/settings.json'
+
+with open(SETTINGS_PATH, encoding='utf-8') as settings_file:
+    _raw_settings = load(settings_file)
+repetition_limit = _raw_settings['repetition_limit']
+time_limit = _raw_settings['time_limit']
+mode = _raw_settings['mode']
 
 
-class EditLengthMenu(Menu):
-    game_length: IntVar
-
-    def __init__(self):
-        Menu.__init__(self)
-        self.game_length = IntVar(None, 10)
-        self.add_radiobutton(label="10 words (default)",
-                             value=10,
-                             variable=self.game_length)
-        self.add_radiobutton(label="25 words",
-                             value=25,
-                             variable=self.game_length)
-        self.add_radiobutton(label="50 words",
-                             value=50,
-                             variable=self.game_length)
+def save():
+    tmp_settings = {
+        'repetition_limit': repetition_limit,
+        'time_limit': time_limit,
+        'mode': mode
+    }
+    with open(SETTINGS_PATH, 'w', encoding='utf-8') as settings_file:
+        dump(tmp_settings, settings_file)

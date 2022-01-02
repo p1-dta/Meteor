@@ -1,5 +1,5 @@
 #
-#     ChiTrain
+#     Meteor
 #     Copyright (C) 2018 Dorian Turba
 #
 #     This program is free software: you can redistribute it and/or modify
@@ -15,14 +15,17 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from dataclasses import dataclass
 
 
+@dataclass
 class Word:
     first: str
     second: str
     weight: int
 
-    def __init__(self, word: dict):
-        self.first = word['first']
-        self.second = word['second']
-        self.weight = word['weight']
+    def __repr__(self):
+        return f'<{self.__class__.__name__}: {self.__dict__}>'
+
+    def __str__(self):
+        return f'{self.__class__.__name__}: ({", ".join((str(v) for v in self.__dict__.values()))})'

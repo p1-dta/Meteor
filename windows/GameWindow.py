@@ -32,14 +32,14 @@ class GameWindow(Window):
     def __init__(self, parent, root=None):
         Window.__init__(self, root)
         self.parent = parent
-        self.parent.menu.file_menu.entryconfig("Start Game",
+        self.parent.menu.file_menu.entryconfig("Start",
                                                state='disabled')
         words_sample = list()
         words_weight = list()
         for it, value in enumerate(self.parent.var):
             if value.get():
                 for it2, word in enumerate(
-                        self.parent.words_sets.w_s_array[it].words):
+                        self.parent.words_sets[it].words):
                     words_sample.append((word, it, it2))
                     if len(words_weight) > 0:
                         words_weight.append(words_weight[-1] + word.weight)
@@ -54,11 +54,10 @@ class GameWindow(Window):
 
     def first_turn(self):
         first_lang_lbl_txt = '{} : {}'.format(
-            self.parent.words_sets.w_s_array[
-                self.words_choice[self.it][1]].first_language,
+            self.parent.words_sets[self.words_choice[self.it][1]].first_language,
             self.words_choice[self.it][0].first)
         sec_lang_lbl_txt = '{} ?'.format(
-            self.parent.words_sets.w_s_array[
+            self.parent.words_sets[
                 self.words_choice[self.it][1]].second_language)
         self.first_lang_lbl = Label(self, text=first_lang_lbl_txt,
                                     font=("TkDefaultFont", 20))
@@ -74,7 +73,7 @@ class GameWindow(Window):
     def show_solution(self):
         self.show_solution_btn.destroy()
         sec_lang_lbl_txt = '{} : {}'.format(
-            self.parent.words_sets.w_s_array[self.words_choice[self.it][1]]
+            self.parent.words_sets[self.words_choice[self.it][1]]
                 .second_language, self.words_choice[self.it][0].second)
         self.scd_lang_lbl.config(text=sec_lang_lbl_txt)
         self.correct_btn = Button(self, text='Correct',
@@ -87,9 +86,9 @@ class GameWindow(Window):
         self.incorrect_btn.grid(column=0)
 
     def correct(self):
-        self.parent.words_sets.w_s_array[self.words_choice[self.it][1]].words[
+        self.parent.words_sets[self.words_choice[self.it][1]].words[
             self.words_choice[self.it][2]].weight -= \
-            self.parent.words_sets.w_s_array[self.words_choice[
+            self.parent.words_sets[self.words_choice[
                 self.it][1]].words[self.words_choice[self.it][2]].weight / 10
         self.it += 1
         if self.it < len(self.words_choice):
@@ -98,10 +97,9 @@ class GameWindow(Window):
             self.master.destroy()
 
     def incorrect(self):
-        self.parent.words_sets.w_s_array[self.words_choice[self.it][1]].words[
+        self.parent.words_sets[self.words_choice[self.it][1]].words[
             self.words_choice[self.it][2]]. \
-            weight += (100 - self.parent.words_sets.
-                       w_s_array[self.words_choice[self.it][1]].
+            weight += (100 - self.parent.words_sets[self.words_choice[self.it][1]].
                        words[self.words_choice[self.it][2]].weight) / 10
         self.it += 1
         if self.it < len(self.words_choice):
@@ -115,11 +113,11 @@ class GameWindow(Window):
         self.scd_lang_lbl.destroy()
         self.first_lang_lbl.destroy()
         first_lang_lbl_txt = '{} : {}'.format(
-            self.parent.words_sets.w_s_array[
+            self.parent.words_sets[
                 self.words_choice[self.it][1]].first_language,
             self.words_choice[self.it][0].first)
         sec_lang_lbl_txt = '{} ?'.format(
-            self.parent.words_sets.w_s_array[
+            self.parent.words_sets[
                 self.words_choice[self.it][1]].second_language)
         self.first_lang_lbl = Label(self, text=first_lang_lbl_txt,
                                     font=("TkDefaultFont", 20))
@@ -133,7 +131,7 @@ class GameWindow(Window):
         self.show_solution_btn.grid(column=0)
 
     def destroy(self):
-        self.parent.menu.file_menu.entryconfig("Start Game",
+        self.parent.menu.file_menu.entryconfig("Start",
                                                state='normal')
         Window.destroy(self)
         return

@@ -44,13 +44,13 @@ class EditMenu(Menu):
     def update_menu(self) -> None:
         if self.window.words_sets == 0:
             self.entryconfig('Edit Sets', state='disabled')
-        else:
-            self.entryconfig('Edit Sets', state='normal')
-            for words_set in self.window.words_sets.w_s_array:
-                p_edit = partial(self.create_set_window, words_set)
-                self.edit_set_menu.add_cascade(label=words_set.get_name(),
-                                               command=p_edit)
-        return
+            return
+
+        self.entryconfig('Edit Sets', state='normal')
+        for words_set in self.window.words_sets:
+            p_edit = partial(self.create_set_window, words_set)
+            self.edit_set_menu.add_cascade(label=words_set.get_name(),
+                                           command=p_edit)
 
     def create_set_window(self, word_set: WordsSets):
         window = Tk()

@@ -1,5 +1,5 @@
 #
-#     ChiTrain
+#     Meteor
 #     Copyright (C) 2018 Dorian Turba
 #
 #     This program is free software: you can redistribute it and/or modify
@@ -48,19 +48,19 @@ class AutoScrollbar(Scrollbar):
 class UpdateWindow(Window):
     def __init__(self, response: Response, parent=None):
         Window.__init__(self, parent)
+
         name = response.json()[0]['name']
-        tag_name = response.json()[0]['tag_name']
         html_url = response.json()[0]['html_url']
+
         release_name_lbl = Label(self, text=name)
-        version_name_lbl = Label(self, text=tag_name)
         download_file = partial(webbrowser.open, html_url)
         download_btn = Button(self,
                               text='downloads',
                               command=download_file)
         update_lbl = Label(self, text='An update is available:',
                            font=("TkDefaultFont", 14))
+
         update_lbl.grid(column=0)
         release_name_lbl.grid(row=1, column=0, sticky=W)
-        version_name_lbl.grid(row=1, column=1, sticky=W)
         download_btn.grid(row=1, column=2, sticky=W)
         parent.attributes("-topmost", True)

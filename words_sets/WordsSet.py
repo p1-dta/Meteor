@@ -22,18 +22,22 @@ class WordsSet:
     name: str
     first_language: str
     second_language: str
-    words: list
+    words: list[Word]
 
-    def __init__(self, word_set: dict) -> None:
-        self.name = word_set['name']
-        self.first_language = word_set['first_language']
-        self.second_language = word_set['second_language']
-        self.words = [Word(word) for word in word_set['words']]
-        return
+    def __init__(self, words_set: dict) -> None:
+        self.name = words_set['name']
+        self.first_language = words_set['first_language']
+        self.second_language = words_set['second_language']
+        self.words = [Word(**word) for word in words_set['words']]
 
-    def get_len(self) -> int:
+    def __repr__(self):
+        return f'<{self.__class__.__name__}: {self.__dict__}>'
+
+    def __str__(self):
+        return f'{self.__class__.__name__}: ({", ".join((str(v) for v in self.__dict__.values()))})'
+
+    def len(self):
         return len(self.words)
 
     def get_name(self) -> str:
-        return '{}({} words)'.format(self.name, self.get_len())
-        pass
+        return self.name

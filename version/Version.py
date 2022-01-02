@@ -15,11 +15,4 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from Singleton import Singleton
-
-
-class Version(metaclass=Singleton):
-    version_num: str
-
-    def __init__(self, version):
-        self.version_num = version['version_num']
+VERSION = 'v0.1.1'

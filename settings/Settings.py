@@ -1,5 +1,5 @@
 #
-#     ChiTrain
+#     Meteor
 #     Copyright (C) 2018 Dorian Turba
 #
 #     This program is free software: you can redistribute it and/or modify
@@ -15,21 +15,22 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-import codecs
-from json import load
+from json import load, dump
 
-from Singleton import Singleton
+SETTINGS_PATH = 'settings/settings.json'
+
+with open(SETTINGS_PATH, encoding='utf-8') as settings_file:
+    _raw_settings = load(settings_file)
+repetition_limit = _raw_settings['repetition_limit']
+time_limit = _raw_settings['time_limit']
+mode = _raw_settings['mode']
 
 
-class Settings(metaclass=Singleton):
-    repetition_limit: int
-    time_limit: int
-    mode: int
-
-    def __init__(self):
-        with codecs.open('settings/settings.json', 'r', encoding='utf-8')\
-                as settings:
-            raw_settings = load(settings)
-        self.repetition_limit = raw_settings['repetition_limit']
-        self.time_limit = raw_settings['time_limit']
-        self.mode = raw_settings['mode']
+def save():
+    tmp_settings = {
+        'repetition_limit': repetition_limit,
+        'time_limit': time_limit,
+        'mode': mode
+    }
+    with open(SETTINGS_PATH, 'w', encoding='utf-8') as settings_file:
+        dump(tmp_settings, settings_file)

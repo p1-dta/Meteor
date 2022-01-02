@@ -86,7 +86,7 @@ class SetWindow(Window):
         for entry in self.words_entries.values():
             tmp.append(Word(first=entry['word_entry_left'].get(),
                             second=entry['word_entry_right'].get(),
-                            weight=entry['word_entry_weight'].get()))
+                            weight=int(entry['word_entry_weight'].get())))
         self.words_set.words = tmp
         self.edit_menu.window.save()
 
@@ -98,10 +98,7 @@ class SetWindow(Window):
         entries['word_entry_weight'].destroy()
         entries['word_del'].destroy()
         del self.words_entries[name]
-        try:
-            self.words_set.words.remove(word)
-        except ValueError:
-            print(f'word {word} not found, maybe already deleted')
+        self.words_set.words.remove(word)
 
     def destroy(self):
         self.menu.entryconfig(self.words_set.get_name(),

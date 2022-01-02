@@ -21,8 +21,8 @@ from windows.MainWindow import MainWindow
 
 def main() -> None:
     root = Tk()
-    chi_train_app = MainWindow(root)
-    chi_train_app.master.title('Meteor')
+    app = MainWindow(root)
+    app.master.title('Meteor')
     root.mainloop()
 
 

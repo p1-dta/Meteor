@@ -75,6 +75,7 @@ class SetWindow(Window):
                 'word_entry_weight': word_entry_weight,
                 'word_del': del_btn,
                 'word_value': word,
+                'frame': frame,
             }
 
         save_btn = Button(self, text='Save', command=self.save)
@@ -97,6 +98,7 @@ class SetWindow(Window):
         entries['word_entry_right'].destroy()
         entries['word_entry_weight'].destroy()
         entries['word_del'].destroy()
+        entries['frame'].destroy()
         del self.words_entries[name]
         self.words_set.words.remove(word)
 

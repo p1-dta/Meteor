@@ -16,11 +16,12 @@
 #     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 from functools import partial
-from tkinter import Menu, Label, Frame, StringVar, Entry, Button, EW
+from tkinter import Menu, Label, Frame, StringVar, Entry, Button, EW, \
+    Scrollbar, Canvas, NSEW, ALL
 
 from menus import EditMenu
-from words_sets import WordsSet
 from windows.Window import Window
+from words_sets import WordsSet
 from words_sets.Word import Word
 
 
@@ -31,7 +32,7 @@ class SetWindow(Window):
 
     def __init__(self, edit_menu: EditMenu, words_set: WordsSet,
                  parent=None, ):
-        Window.__init__(self, parent)
+        super().__init__(parent)
         self.window = parent
         self.edit_menu = edit_menu
         self.words_set = words_set
@@ -48,26 +49,43 @@ class SetWindow(Window):
         first_lang_lbl.grid(row=0, column=0)
         sec_lang_lbl.grid(row=0, column=1)
         weight_lang_lbl.grid(row=0, column=2)
-        for word in words_set.words:
+
+        canvas = Canvas(self, height=300, width=420)
+        self.canvas = canvas
+        canvas.grid(row=1, column=0, columnspan=4, sticky=NSEW)
+
+        scrollbar = Scrollbar(self, orient="vertical",
+                              command=canvas.yview)
+        scrollbar.grid(row=1, column=5, sticky="ns")
+
+        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.bind("<Configure>",
+                    lambda e: canvas.configure(scrollregion=canvas.bbox(ALL)))
+
+        scroll_frame = Frame(canvas)
+        canvas.create_window((0, 0), window=scroll_frame, anchor="nw")
+
+        self.grid()
+
+        for i, word in enumerate(words_set.words):
             if str(word) in self.words_entries:
                 continue
-            frame = Frame(self)
-            frame.grid(column=0, columnspan=4)
+            frame = Frame(scroll_frame)
             first_txt_var = StringVar()
             sec_txt_var = StringVar()
             weight_txt_var = StringVar()
-            word_entry_left = Entry(frame, textvariable=first_txt_var)
-            word_entry_left.grid(row=0, column=0)
-            word_entry_right = Entry(frame, textvariable=sec_txt_var)
-            word_entry_right.grid(row=0, column=1)
-            word_entry_weight = Entry(frame, textvariable=weight_txt_var)
-            word_entry_weight.grid(row=0, column=2)
+            word_entry_left = Entry(scroll_frame, textvariable=first_txt_var)
+            word_entry_left.grid(row=i, column=0)
+            word_entry_right = Entry(scroll_frame, textvariable=sec_txt_var)
+            word_entry_right.grid(row=i, column=1)
+            word_entry_weight = Entry(scroll_frame, textvariable=weight_txt_var)
+            word_entry_weight.grid(row=i, column=2)
             word_entry_left.insert(0, word.first)
             word_entry_right.insert(0, word.second)
             word_entry_weight.insert(0, word.weight)
-            del_btn = Button(frame, text='delete', command=partial(self.delete,
-                                                                   str(word)))
-            del_btn.grid(row=0, column=3)
+            del_btn = Button(scroll_frame, text='delete',
+                             command=partial(self.delete, str(word)))
+            del_btn.grid(row=i, column=3)
 
             self.words_entries[str(word)] = {
                 'word_entry_left': word_entry_left,
@@ -101,6 +119,7 @@ class SetWindow(Window):
         entries['frame'].destroy()
         del self.words_entries[name]
         self.words_set.words.remove(word)
+        self.canvas.configure(scrollregion=self.canvas.bbox(ALL))
 
     def destroy(self):
         self.menu.entryconfig(self.words_set.get_name(),
